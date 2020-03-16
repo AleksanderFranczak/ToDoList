@@ -1,7 +1,9 @@
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
 
 import AddIcon from '../Icons/AddIcon';
+import {connect} from 'react-redux';
+import {addTask} from '../redux/actions';
 
 const StyledIcon = styled(AddIcon)`
   width: 2rem;
@@ -43,12 +45,27 @@ const StyledForm = styled.form`
 
 const AddTask = (props) => {
 
+    const [text,setText] =  useState('');
+
+    const handleChange = (event) => {
+        setText(event.target.value)
+    }
+
+    const handleSubmit = (event) => {
+        props.addTask(text,props.tasks.length);
+        event.preventDefault();
+        setText('');
+    }
 
     return (
         <TextFieldContainer>
-            <StyledForm>
-                <StyledInput placeholder="enter your task
-                " type="text"></StyledInput>
+            <StyledForm onSubmit={handleSubmit} >
+                <StyledInput 
+                placeholder="enter your task" 
+                type="text"
+                onChange={handleChange}
+                value={text}
+                /> 
                 <label>
                     <Hiddensubmit type="submit"/>
                     <StyledIcon/>
@@ -58,4 +75,14 @@ const AddTask = (props) => {
     )
 }
 
-export default AddTask;
+
+const mapStateToProps = state => ({
+    tasks:state.tasks,
+})
+
+
+const mapDispatchToProps = {
+    addTask,
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddTask);

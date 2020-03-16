@@ -1,0 +1,4 @@
+export const ADD_TASK = 'ADD_TASK';
+export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
+export const CLEAR_COMPLETED = 'CLEAR_COMPLETED';
+export const COMPLETE_TASK = 'COMPLETE_TASK';

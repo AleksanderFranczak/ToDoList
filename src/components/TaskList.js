@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import {connect} from 'react-redux';
 
 //components 
 
@@ -15,17 +15,45 @@ const Container = styled.div`
     height:70vh;
     border-radius:2rem;
     background-color:white;
+    overflow-y:auto;
 `;
 
 
 const TaskList = (props) => {
     return (
-        <Container>
-            <Task>Learn react and styled components</Task>
-            <Task>koń zwalony</Task>
-        </Container>
-    )
+      <Container>
+        {props.tasks.map(task => {
+          if (!task.completed)
+            return (
+              <Task
+                key={task.id}
+                timestamp={task.timeStamp}
+                id={task.id}
+                completed={task.completed}
+              >
+                {task.text}
+              </Task>
+            );
+        })}
+
+        {props.tasks.map(task => {
+          if (task.completed)
+            return (
+              <Task
+                key={task.id}
+                timestamp={task.timeStamp}
+                id={task.id}
+                completed={task.completed}
+              >
+                {task.text}
+              </Task>
+            );
+        })}
+      </Container>
+    );
 }
 
-
-export default TaskList;
+const mapStateToProps = (state) => ({
+    tasks:state.tasks,
+})
+export default connect(mapStateToProps,)(TaskList);
